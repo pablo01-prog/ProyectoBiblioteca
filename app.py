@@ -8,8 +8,7 @@ import google.generativeai as genai
 
 # 1. cargar variables de seguridad (.env)
 
-load_dotenv()
-api_key = os.getenv("API_KEY")
+api_key = st.secrets["API_KEY"]
 genai.configure(api_key=api_key)
 
 # 2. cargar el modelo local entrenado anteriormente
