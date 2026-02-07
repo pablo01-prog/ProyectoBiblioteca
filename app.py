@@ -1,36 +1,52 @@
-# este archivo usa Stramlit y conecta con la API de Gemini. 
-
 import streamlit as st
 import joblib
-import os
-from dotenv import load_dotenv
 import google.generativeai as genai
 
-# 1. cargar variables de seguridad (.env)
+# -----------------------------
+# Configuración de la API Key
+# -----------------------------
+genai.configure(api_key=st.secrets["API_KEY"])
 
-api_key = st.secrets["API_KEY"]
-genai.configure(api_key=api_key)
-
-# 2. Carga del modelo local entrenado anteriormente
+# -----------------------------
+# Carga del modelo local
+# -----------------------------
 modelo_local = joblib.load('modelo_libros.pkl')
 
+# -----------------------------
+# Interfaz de Streamlit
+# -----------------------------
+st.title("Mi Recomendador")
 
-# 3. Interfaz de usuario
-st.set_page_config(page_title="BiblioIA")
-st.title("Mi Recomendador de Libros")
-st.write("Dime qué buscas y mi modelo + Gemini te ayudarán.")
-
-user_input = st.text_input("¿Qué libro te apetece?")
+user_input = st.text_input("Describe el libro que te gustaría leer:")
 
 if st.button("Recomendar"):
-    if user_input:
-        # Predicción del género
+    if user_input.strip() == "":
+        st.write("Por favor, escribe una descripción primero 🙂")
+    else:
+        # Predicción del género con el modelo local
         genero = modelo_local.predict([user_input])[0]
-        st.info(f"Género: {genero}")
 
-        # Gemini
-        model = genai.GenerativeModel('gemini-1.5-flash-latest')
-        prompt = f"Recomienda 3 libros de {genero} para: {user_input}"
-        res = model.generate_content(prompt)
+        # -----------------------------
+        # Llamada a Gemini (versión correcta del modelo)
+        # -----------------------------
+        model = genai.GenerativeModel(
+            model_name="models/gemini-1.5-flash"
+        )
 
-        st.success(res.text)
+        prompt = f"""
+        El usuario busca un libro con esta descripción:
+        "{user_input}"
+
+        El género detectado es: {genero}
+
+        Recomienda un libro adecuado y explica brevemente por qué.
+        """
+
+        response = model.generate_content(prompt)
+
+        # -----------------------------
+        # Mostrar resultados
+        # -----------------------------
+        st.write("📚 **Género detectado:**", genero)
+        st.write("🤖 **Recomendación:**")
+        st.write(response.text)
