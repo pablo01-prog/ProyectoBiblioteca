@@ -15,3 +15,4 @@ genai.configure(api_key=api_key)
 # 2. cargar el modelo local entrenado anteriormente
 
 modelo_local = joblib.load('modelo_libros.pkl')
+
