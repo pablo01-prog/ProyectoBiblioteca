@@ -24,7 +24,7 @@ if st.button("Recomendar"):
 
             # B. Llamada a Gemini con la versión de modelo más estable
             # Usamos 'gemini-1.5-flash' sin prefijos para evitar el error 404 de v1beta
-            model = genai.GenerativeModel('gemini-1.5-flash')
+           model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
             
             prompt = f"Basado en que el usuario busca '{user_input}' y el género es '{genero}', recomienda 3 libros reales y explica brevemente por qué."
             
