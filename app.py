@@ -18,12 +18,12 @@ user_input = st.text_input("¿Qué libro te apetece leer hoy?")
 if st.button("Recomendar"):
     if user_input:
         try:
-            # A. Predicción con tu modelo local
+            # A. Predicción con tu modelo local (Esto ya te funciona)
             genero = modelo_local.predict([user_input])[0]
             st.info(f"🔍 Género detectado: **{genero}**")
 
-            # B. Llamada a Gemini corregida
-            model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
+            # B. Llamada a Gemini (Nombre de modelo compatible)
+            model = genai.GenerativeModel('gemini-1.5-flash')
             
             prompt = f"Basado en que el usuario busca '{user_input}' y el género es '{genero}', recomienda 3 libros reales."
             
