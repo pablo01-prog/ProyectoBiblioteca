@@ -2,7 +2,7 @@ import streamlit as st
 import joblib
 import google.generativeai as genai
 
-# 1. Configuración de API
+# 1. Configuración de la API Key
 genai.configure(api_key=st.secrets["API_KEY"])
 
 # 2. Carga del modelo local
@@ -18,22 +18,21 @@ user_input = st.text_input("¿Qué libro te apetece leer hoy?")
 if st.button("Recomendar"):
     if user_input:
         try:
-            # A. Predicción con tu modelo local (esto ya te funciona bien)
+            # A. Predicción con tu modelo local
             genero = modelo_local.predict([user_input])[0]
-            st.info(f"🔍 Género detectado por el modelo local: **{genero}**")
+            st.info(f"🔍 Género detectado: **{genero}**")
 
-            # B. Llamada a Gemini con la versión de modelo más estable
-            # Usamos 'gemini-1.5-flash' sin prefijos para evitar el error 404 de v1beta
-           model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
+            # B. Llamada a Gemini corregida
+            model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
             
-            prompt = f"Basado en que el usuario busca '{user_input}' y el género es '{genero}', recomienda 3 libros reales y explica brevemente por qué."
+            prompt = f"Basado en que el usuario busca '{user_input}' y el género es '{genero}', recomienda 3 libros reales."
             
             response = model.generate_content(prompt)
             
-            st.success("✨ **Sugerencias de Gemini:**")
+            st.success("✨ **Sugerencias:**")
             st.write(response.text)
             
         except Exception as e:
-            st.error(f"Hubo un problema con la recomendación: {e}")
+            st.error(f"Hubo un problema: {e}")
     else:
         st.warning("Por favor, escribe algo primero.")
