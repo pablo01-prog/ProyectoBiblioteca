@@ -29,7 +29,7 @@ if st.button("Recomendar"):
         st.info(f"Género: {genero}")
 
         # Gemini
-        model = genai.GenerativeModel('gemini-pro')
+        model = genai.GenerativeModel('gemini-1.5-flash')
         prompt = f"Recomienda 3 libros de {genero} para: {user_input}"
         res = model.generate_content(prompt)
 
