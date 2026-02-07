@@ -26,7 +26,7 @@ if st.button("Recomendar"):
             st.info(f"🔍 Género detectado por el modelo: **{genero}**")
 
             # Configuración de Gemini (usando el nombre de modelo más compatible)
-            model = genai.GenerativeModel('gemini-1.5-flash')
+            model = genai.GenerativeModel(model_name="models/gemini-1.5-flash")
             
             prompt = f"El usuario busca un libro con esta descripción: {user_input}. El género es {genero}. Recomienda 3 libros reales y explica por qué."
             
