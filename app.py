@@ -2,39 +2,25 @@ import streamlit as st
 import joblib
 import google.generativeai as genai
 
-# 1. Configuración de la API Key
 genai.configure(api_key=st.secrets["API_KEY"])
-
-# 2. Carga del modelo local
 modelo_local = joblib.load('modelo_libros.pkl')
 
-# 3. Interfaz
-st.set_page_config(page_title="BiblioIA")
 st.title("📚 Mi Recomendador de Libros")
-st.write("Tu IA local detecta el género y Gemini te recomienda los mejores títulos.")
-
-user_input = st.text_input("¿Qué libro te apetece leer hoy?")
+user_input = st.text_input("¿Qué libro te apetece leer?")
 
 if st.button("Recomendar"):
     if user_input:
         try:
-            # A. Predicción con tu modelo local (Esto ya te funciona)
             genero = modelo_local.predict([user_input])[0]
-            st.info(f"🔍 Género detectado: **{genero}**")
+            st.info(f"🔍 Género detectado: {genero}")
 
-            # B. Llamada a Gemini (Nombre de modelo compatible)
-      
-            # Configuración avanzada para forzar compatibilidad
+            # USAMOS GEMINI-PRO QUE ES COMPATIBLE CON v1beta
             model = genai.GenerativeModel('gemini-pro')
             
-            prompt = f"Basado en que el usuario busca '{user_input}' y el género es '{genero}', recomienda 3 libros reales."
-            
+            prompt = f"Recomienda 3 libros de {genero} para: {user_input}."
             response = model.generate_content(prompt)
             
-            st.success("✨ **Sugerencias:**")
+            st.success("🤖 Recomendaciones:")
             st.write(response.text)
-            
         except Exception as e:
-            st.error(f"Hubo un problema: {e}")
-    else:
-        st.warning("Por favor, escribe algo primero.")
+            st.error(f"Error: {e}")
