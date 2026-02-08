@@ -30,7 +30,7 @@ user_input = st.text_input("Describe el libro que buscas:")
 
 # IMPORTANTE: Aquí pondremos el nombre que copies de la lista de arriba
 # Por ahora dejo uno que suele aparecer en v1beta, pero cámbialo si ves otro
-nombre_modelo_elegido = "models/gemini-1.5-flash" 
+nombre_modelo_elegido = models/gemini-2.5-flash
 
 if st.button("Recomendar"):
     if user_input:
