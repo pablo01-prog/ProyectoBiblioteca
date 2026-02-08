@@ -23,7 +23,7 @@ if st.button("Recomendar"):
             st.info(f"🔍 Género detectado: **{genero}**")
 
             # B. Llamada a Gemini (Nombre de modelo compatible)
-            model = genai.GenerativeModel('gemini-1.5-flash')
+      
                 # Configuración avanzada para forzar compatibilidad
             model = genai.GenerativeModel(
                 model_name="gemini-1.5-flash",
