@@ -24,16 +24,8 @@ if st.button("Recomendar"):
 
             # B. Llamada a Gemini (Nombre de modelo compatible)
       
-                # Configuración avanzada para forzar compatibilidad
-            model = genai.GenerativeModel(
-                model_name="gemini-1.5-flash",
-                generation_config={
-                    "temperature": 0.7,
-                    "top_p": 0.95,
-                    "top_k": 64,
-                    "max_output_tokens": 1000,
-                }
-            )
+            # Configuración avanzada para forzar compatibilidad
+            model = genai.GenerativeModel('gemini-pro')
             
             prompt = f"Basado en que el usuario busca '{user_input}' y el género es '{genero}', recomienda 3 libros reales."
             
